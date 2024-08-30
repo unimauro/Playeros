@@ -3,6 +3,9 @@ from PIL import Image
 import requests
 import io
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -12,11 +15,12 @@ def upload_image():
         image = request.files['image']
         image_path = os.path.join('uploads', image.filename)
         image.save(image_path)
+        stability_api_key = os.getenv('STABILITY_API_KEY')
         
         response = requests.post(
             f"https://api.stability.ai/v2beta/stable-image/generate/ultra",
             headers={
-                "authorization": f"Bearer sk-InPl4D3wgqtfFFs4lDmZ7j76U0YABBMnvpaPU0NRP22KgBUa",
+                "authorization": f"Bearer {stability_api_key}",
                 "accept": "image/*"
             },
             files={'image': open(image_path, 'rb')},
@@ -42,12 +46,23 @@ def upload_image():
 
     return '''
     <!doctype html>
-    <title>Upload an Image</title>
-    <h1>Upload an Image to Transform</h1>
-    <form method=post enctype=multipart/form-data>
-      <input type=file name=image>
-      <input type=submit value=Upload>
-    </form>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <title>Playita</title>
+    </head>
+     <body>
+        <div class="container d-flex align-items-center justify-content-center" style="min-height: 200vh;">
+            <div class="card" style="width: 36rem; max-width: 100%;">
+              <h1>Sube tu foto</h1>
+              <form method=post enctype=multipart/form-data>
+                <input type=file name=image>
+                <input type=submit value=Subir>
+              </form>
+            </div>
+        </div>
+     </body>
     '''
 
 @app.route('/display/<filename>')
@@ -59,16 +74,16 @@ def display_image(filename):
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-        <title>Transformed Image</title>
+        <title>Playita</title>
     </head>
     <body>
-        <div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
-            <div class="card" style="width: 24rem;">
-                <img src="/outputs/{filename}" class="card-img-top" alt="Transformed Image">
+        <div class="container d-flex align-items-center justify-content-center" style="min-height: 200vh;">
+            <div class="card" style="width: 36rem; max-width: 100%;">
+                <img src="/outputs/{filename}" class="card-img-top w-100" alt="La Playita que Mereces" style="height: auto;">
                 <div class="card-body">
-                    <h5 class="card-title">Transformed Image</h5>
+                    <h5 class="card-title">Disfruta la playa</h5>
                     <p class="card-text">Here is your transformed image inside a Bootstrap card.</p>
-                    <a href="/" class="btn btn-primary">Upload Another Image</a>
+                    <a href="/" class="btn btn-primary">Subir otra Imagen</a>
                 </div>
             </div>
         </div>
