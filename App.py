@@ -53,12 +53,12 @@ def upload_image():
         <title>Playita</title>
     </head>
      <body>
-        <div class="container d-flex align-items-center justify-content-center" style="min-height: 200vh;">
+        <div class="container d-flex align-items-center justify-content-center" style="min-height: 50vh;">
             <div class="card" style="width: 36rem; max-width: 100%;">
               <h1>Sube tu foto</h1>
               <form method=post enctype=multipart/form-data>
-                <input type=file name=image>
-                <input type=submit value=Subir>
+                <input type=file name=image class="btn btn-primary">
+                <input type=submit value=Subir class="btn btn-primary">
               </form>
             </div>
         </div>
@@ -77,12 +77,12 @@ def display_image(filename):
         <title>Playita</title>
     </head>
     <body>
-        <div class="container d-flex align-items-center justify-content-center" style="min-height: 200vh;">
+        <div class="container d-flex align-items-center justify-content-center" style="min-height: 50vh;">
             <div class="card" style="width: 36rem; max-width: 100%;">
                 <img src="/outputs/{filename}" class="card-img-top w-100" alt="La Playita que Mereces" style="height: auto;">
                 <div class="card-body">
                     <h5 class="card-title">Disfruta la playa</h5>
-                    <p class="card-text">Here is your transformed image inside a Bootstrap card.</p>
+                    <p class="card-text">Aqui tu Imagen Generada por Stable Diffusion.</p>
                     <a href="/" class="btn btn-primary">Subir otra Imagen</a>
                 </div>
             </div>
